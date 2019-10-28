@@ -10,3 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+
+int		checksc(unsigned int c)
+{
+	if ( c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'
+		|| c == 'u' || c == 'p')
+		return (1);
+	return (0);
+}
+
+int		checkflags(unsigned int c)
+{
+	if( c == '-' || c == '*' || c == '0' || c == '.')
+		return (1);
+	return (0);
+}

@@ -14,4 +14,7 @@
 #include <stdarg.h>
 
 int		ft_printf(const char *format, ...);
-t_list		divide(const char *format);
+t_list		*divide(const char *format);
+int		checkvalidflags(unsigned int c);
+int		checksc(unsigned int c);
+
