@@ -13,8 +13,18 @@
 #include "./libft/libft.h"
 #include <stdarg.h>
 
+
+
 int		ft_printf(const char *format, ...);
-t_list		*divide(const char *format);
-int		checkvalidflags(unsigned int c);
+int		checkf(unsigned int c);
 int		checksc(unsigned int c);
+
+typedef	struct		s_flag
+{
+	int		width;
+	int		precision;
+	int		left_pad;
+	int		zero_conv;
+	char	conv;
+}					t_flag;
 
