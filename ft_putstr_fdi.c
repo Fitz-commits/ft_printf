@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checks.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fdi.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdelaby <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/26 12:36:43 by cdelaby           #+#    #+#             */
-/*   Updated: 2019/10/26 12:36:46 by cdelaby          ###   ########.fr       */
+/*   Created: 2019/11/12 15:13:54 by cdelaby           #+#    #+#             */
+/*   Updated: 2019/11/12 15:13:55 by cdelaby          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		checksc(unsigned int c)
+int	ft_putstr_fdi(char *s, int fd)
 {
-	if ( c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'
-		|| c == 'u' || c == 'p')
-		return (1);
-	return (0);
-}
+	int i;
 
-int		checkf(unsigned int c)
-{
-	if( c == '-' || c == '*' || c == '0' || c == '.')
-		return (1);
-	return (0);
+	i = 0;
+	if (fd > 0 && s)
+	{
+		i += write(fd, s, ft_strlen(s));
+	}
+    return(i);
 }

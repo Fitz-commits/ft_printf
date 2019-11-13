@@ -26,12 +26,23 @@ int	ft_printf(const char *format, ...)
 	while(format[i])
 	{
 		if(format[i] == '%')
-			count += conv_init(&format[i], ap, &i)
+			i += conv_init((char*)&format[i + 1], ap, &count) + 1;
 		else
 		{
-			count += write(1, format[i], 1)
+			count += write(1, &format[i], 1);
 			i++;
 		}
 	}
-	return (count)
+	return (count);
+}
+
+int		main()
+{
+	char *salut;
+	salut = ft_strdup("salut");
+	//ft_printf("%p\n", salut);
+	//printf("%p", salut);
+	ft_printf("%p\n", salut);
+	printf("%p\n", salut);
+	free(salut);
 }
