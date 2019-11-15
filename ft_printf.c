@@ -42,7 +42,8 @@ int		main()
 	salut = ft_strdup("salut");
 	//ft_printf("%p\n", salut);
 	//printf("%p", salut);
-	ft_printf("%p\n", salut);
-	printf("%p\n", salut);
+	int i;
+	ft_printf("%d\n", i);
+	printf("%d\n", i);
 	free(salut);
 }
