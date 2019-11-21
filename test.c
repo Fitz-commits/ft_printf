@@ -7,7 +7,7 @@ void ft_lol(int *i)
 	*i += 1;
 }
 */
-char	*prec_n_change(char *conv, long prec, int i)
+/*char	*prec_n_change(char *conv, long prec, int i)
 {
 	char	*new;
 	char	*convcpy;
@@ -34,6 +34,8 @@ char	*prec_n_change(char *conv, long prec, int i)
 	free(convcpy);
 	return (new);
 }
+*/
+/*
 int		main()
 
 {
@@ -49,6 +51,13 @@ int		main()
 	//printf("%p\n", ptr);
 	//yo = ft_strdup("899");
 	//yo = prec_n_change(yo, 7, 0);
-	printf("|%-8.10d|", 9);
+	printf("|%010p|", "sakyt");
 	//free(yo);
 }
+
+
+int		main()
+{
+	printf("%lu", strlen("                                       "));
+}
+*/

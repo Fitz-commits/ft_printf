@@ -26,9 +26,22 @@ int				get_size(long long nbr, int base)
 	return (i);
 }
 
+int				get_sizeu(unsigned long long nbr, int base)
+{
+	int i;
+
+	i = 1;
+	while (nbr / base)
+	{
+		i++;
+		nbr = nbr / base;
+	}
+	return (i);
+}
 char *ctoa(int c)
 {
     char *result;
+
     if(!(result = malloc(sizeof(char) * 2)))
         return (NULL);
     result[0] = c;
@@ -38,6 +51,8 @@ char *ctoa(int c)
 
 char *atoa(char *s)
 {
+    if(!s)
+        return (ft_strdup(""));
     return (ft_strdup(s));
 }
 
@@ -69,9 +84,11 @@ char *ptoa(void *ptr)
     unsigned long long p;
     int size;
 
+    if(ptr == NULL)
+        return (ft_strdup(""));
     base = ft_strdup("0123456789abcdef");
     p = (unsigned long long)ptr;
-    size = get_size(p, 16);
+    size = get_sizeu(p, 16);
     if (!(result = malloc(sizeof(char) * size + 3)))
         return (NULL);
     size += 2 ;
