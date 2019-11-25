@@ -16,7 +16,7 @@ t_flag		*simple_flag(char *data, t_flag *flags, va_list ap, int *j)
 {
 	if(ft_atoi(&data[0]) > 0 && data[0] != '0')
 		return flags;
-	if(data[0] == '0')
+	if(data[0] == '0' && flags->precision == -1)
 		flags->zero_conv = 1;
 	if(data[0] == '-')
 		flags->left_pad = 1;
@@ -90,9 +90,9 @@ char 	*converter(t_flag *flags, va_list ap)
 	if (n == 5)
 		return ((ft_itoa(va_arg(ap, unsigned int))));
 	if (n == 6)
-		return ((xtoa(va_arg(ap, unsigned long long))));
+		return ((xtoa(va_arg(ap, unsigned int))));
 	if (n == 7)
-		return ((x_majtoa(va_arg(ap, unsigned long long))));
+		return ((x_majtoa(va_arg(ap, unsigned int))));
 	if (n == 8)
 		return (ctoa('%'));
 	return(0);
@@ -122,7 +122,7 @@ char	*prec_n_change(char *conv, long prec, int i)
 	if(prec <= size)
 		return (conv);
 	conv += neg;
-	if(!(new = malloc(sizeof(char) * (prec + neg))))
+	if(!(new = malloc(sizeof(char) * (prec + neg + 1))))
 		return (NULL);
 	new[prec + neg] = 0;
 	if(neg)
@@ -134,7 +134,53 @@ char	*prec_n_change(char *conv, long prec, int i)
 	free(convcpy);
 	return (new);
 }
+char *zwmod(char *conv, int  *print, int *width)
+{
+	int neg;
+	char *cpy;
+
+	neg = 0;
+	if(conv[0] == '-')
+	{
+		*width -= 1;
+		*print += write(1, &"-", 1);
+		neg = 1;
+	}
+	cpy = conv;
+	conv = ft_strdup(&conv[neg]);
+	free(cpy);
+	return (conv);
+}
+
 int		n_printer(char *conv, t_flag *flags)
+{
+	int size;
+	int print;
+
+	print = 0;
+	if (flags->width && flags->precision < 0 && conv[0] == '-' && flags->zero_conv)
+		conv = zwmod(conv, &print, &flags->width);
+	if(flags->precision > 0)
+		conv = prec_n_change(conv,flags->precision, 0);
+	size = ft_strlen(conv);
+	if ((flags->width > size && !flags->left_pad))
+	{
+		if(flags->precision <= -1 && flags->zero_conv)
+			while (flags->width-- > size)
+				print += write(1, &"0",1);
+		else
+			while (flags->width-- > size)
+				print += write(1, &" ", 1);
+	}
+	print += ft_putstr_fdi(conv, 1);
+	if (flags->width > size && flags->left_pad)
+		while (flags->width-- > size)
+			print += write(1, &" ", 1);
+	free(conv);
+	return (print);
+}
+
+int		x_printer(char *conv, t_flag *flags)
 {
 	int size;
 	int print;
@@ -143,23 +189,20 @@ int		n_printer(char *conv, t_flag *flags)
 	if(flags->precision > 0)
 		conv = prec_n_change(conv,flags->precision, 0);
 	size = ft_strlen(conv);
-	if (flags->width > size && !flags->left_pad)
+	if ((flags->width > size && !flags->left_pad))
 	{
-		if(flags->zero_conv && flags->precision < -1)
-		{
+		if((flags->zero_conv && flags->precision <= -1))
 			while (flags->width-- > size)
 				print += write(1, &"0",1);
-		}
 		else
-		{
 			while (flags->width-- > size)
 				print += write(1, &" ", 1);
-		}
 	}
 	print += ft_putstr_fdi(conv, 1);
 	if (flags->width > size && flags->left_pad)
 		while (flags->width-- > size)
 			print += write(1, &" ", 1);
+	free(conv);
 	return (print);
 }
 
@@ -169,7 +212,9 @@ int		spc_printer(char *conv, t_flag *flags)
 	int print;
 
 	print = 0;
-	if(flags->conv == 's' && flags->precision != -1)
+	if (flags->conv == 'c' && conv[0] == 0)
+		flags->width--;
+	if(flags->conv == 's' && flags->precision > -1 && flags->precision < ft_strlen(conv))
 		conv[flags->precision] = 0;
 	size = ft_strlen(conv);
 	if (flags->width > size && !flags->left_pad)
@@ -181,16 +226,20 @@ int		spc_printer(char *conv, t_flag *flags)
 			while (flags->width-- > size)
 				print += write(1, &" ", 1);
 	}
-	print += ft_putstr_fdi(conv, 1);
+	if (flags->conv == 'c' && conv[0] == 0)
+		print += write(1, &"\0", 1);
+	else	
+		print += ft_putstr_fdi(conv, 1);
 	if (flags->width > size && flags->left_pad)
 		while (flags->width-- > size)
 			print += write(1, &" ", 1);
+	free(conv);
 	return (print);
 }
 int		printer(char *conv, t_flag *flags)
 {
-	if (!conv)
-		return(write(1, &"", 1));
+	if (flags->conv == 'x' || flags->conv == 'X' || flags->conv == 'u')
+		return (x_printer(conv, flags));
 	if (numered(flags->conv))
 		return (n_printer(conv, flags));
 	else
@@ -221,6 +270,7 @@ int	conv_init(char *data, va_list ap, int *i)
 		flags->conv = data[j++];
 	conv = converter(flags, ap);
 	*i += printer(conv, flags);
+	free(flags);
 	return j;
 }
 
@@ -235,10 +285,4 @@ int		test(char *format, ...)
 	va_end(ap);
 	return (i);
 }
-
-int main()
-{
-	test("0s");
-}
-
 */

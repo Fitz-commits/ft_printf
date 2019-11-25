@@ -52,7 +52,7 @@ char *ctoa(int c)
 char *atoa(char *s)
 {
     if(!s)
-        return (ft_strdup(""));
+        return (ft_strdup("(null)"));
     return (ft_strdup(s));
 }
 
@@ -63,8 +63,8 @@ char *xtoa(unsigned long long nb)
     int size;
 
     base = ft_strdup("0123456789abcdef");
-    size = get_size(nb, 16);
-    if (!(result = malloc(sizeof(char) * (get_size(nb, 16) + 1))))
+    size = get_sizeu(nb, 16);
+    if (!(result = malloc(sizeof(char) * (get_sizeu(nb, 16) + 1))))
         return (NULL);
     result[size--] = 0;
     while(nb > 0)
@@ -107,14 +107,6 @@ char *ptoa(void *ptr)
 /*
 int main()
 {
-	char *salut;
-    printf("%p\n", salut);
-    salut = malloc(1);
-    printf("%p\n", salut);
-    free(salut);
-    salut = NULL;
-    printf("%p\n", salut);
-	//printf("%.6s\n", ptoa(sal));
-	//printf("%u", (unsigned) -6);
+	printf("%s", xtoa(8010822473));
 }
 */
