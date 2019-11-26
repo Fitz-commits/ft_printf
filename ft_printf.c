@@ -36,19 +36,3 @@ int	ft_printf(const char *format, ...)
 	va_end(ap);
 	return (count);
 }
-/*
- int		main()
- {
- 	char *salut;
- 	salut = ft_strdup("salut");
- 	//ft_printf("%p\n", salut);
- 	//printf("%p", salut);
- 	int i, i2;
- 	i = 5;
- 	i = ft_printf("%00196.111x%-75.105s%00025.*d\n" ,488781920u,"nryaS{>sO$$uv",-11,-461358826);
- 	i2 = printf("%00196.111x%-75.105s%00025.*d\n" ,488781920u,"nryaS{>sO$$uv",-11,-461358826);
- 	//ft_printf("i == %d \ni == %d", i, i2);"%093.158x%0177X%--94c%--.27x" ,1943018631u,3317677193u,-102,531810136u
- 	free(salut);
- }
- 
-*/

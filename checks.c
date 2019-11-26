@@ -14,7 +14,7 @@
 
 int		checksc(unsigned int c)
 {
-	if ( c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'
+	if (c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'
 		|| c == 'u' || c == 'p' || c == '%')
 		return (1);
 	return (0);
@@ -22,7 +22,7 @@ int		checksc(unsigned int c)
 
 int		checkf(unsigned int c)
 {
-	if( c == '-' || c == '*' || c == '0' || c == '.')
+	if (c == '-' || c == '*' || c == '0' || c == '.')
 		return (1);
 	return (0);
 }

@@ -21,5 +21,5 @@ int	ft_putstr_fdi(char *s, int fd)
 	{
 		i += write(fd, s, ft_strlen(s));
 	}
-    return(i);
+	return (i);
 }
